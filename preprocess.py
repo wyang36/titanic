@@ -4,6 +4,9 @@ from sklearn.model_selection import train_test_split
 
 def prep_train_val_data():
     train_X = pd.read_csv('data/train.csv')
+    train_X = train_X.fillna(train_X.mean())
+
+    # train_X.apply(lambda x: x.fillna(x.mean()),axis=0)
     train_y = train_X['Survived'].copy()
 
     train_X = train_X[['PassengerId', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']]
@@ -18,5 +21,7 @@ def prep_test_data():
     test_X = pd.read_csv('data/test.csv')
     test_X = test_X[['PassengerId', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']]
     test_X_encoded = pd.get_dummies(test_X, columns=['Sex'], prefix='Sex')
+    test_X_encoded = test_X_encoded.fillna(test_X_encoded.mean())
+    # test_X_encoded.apply(lambda x: x.fillna(x.mean()),axis=0)
 
     return test_X_encoded
